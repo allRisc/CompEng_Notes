@@ -1,0 +1,47 @@
+\usepackage[framemethod=TikZ]{mdframed}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Definition Box
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Create a definition counter
+\newcounter{defbox}[chapter]\setcounter{defbox}{0}
+\renewcommand{\thedefbox}{\arabic{chapter}.\arabic{defbox}}
+\newcommand{\defboxautorefname}{Definition}
+
+% Create the definition box
+\newenvironment{defbox}[1][]{ 
+  \refstepcounter{defbox}
+
+  % If no title given
+  \ifstrempty{#1}
+  {
+    \mdfsetup{
+      frametitle={
+        \tikz[baseline=(current bounding box.east), outer sep=0pt]
+        \node[anchor=east,rectangle,fill=blue!30]
+          {\strut Definition~\thedefbox};
+      }
+    }
+  }{
+    \mdfsetup{
+      frametitle={
+        \tikz[baseline=(current bounding box.east), outer sep=0pt]
+        \node[anchor=east,rectangle,fill=blue!30]
+          {\strut Definition~\thedefbox:~#1};
+      }
+    }
+  }
+
+  % Regardless of title given
+  \mdfsetup{
+    innertopmargin=12pt,
+    linecolor=blue!75,
+    linewidth=2pt,
+    topline=true,
+    frametitleaboveskip=\dimexpr-\ht\strutbox\relax
+  }
+
+  \begin{mdframed}[]\relax%
+}{
+  \end{mdframed}
+}

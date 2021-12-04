@@ -1,0 +1,88 @@
+\documentclass[letterpaper,12pt]{book}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Packages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Formatting
+\usepackage[headheight=35pt,hmargin=0.5in,vmargin=0.75in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{fancyhdr, parskip}
+
+% Tables and Figures
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{tabularx}
+
+\input{common/emphasis_boxes.tex}
+
+% Additional Info
+\usepackage{lastpage}
+
+% Hyperref Should remain the last import in most circumstances
+\usepackage{hyperref}
+  \hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta
+    urlcolor=cyan
+  }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Title Page Information
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Computer Engineering Notes}
+\author{
+  Benjamin Davis [\href{mailto:benjamin.j.davis96@gmail.com}{benjamin.j.davis96@gmail.com}]
+}
+\date{Copyright \copyright\ \the\year\ Benjamin Davis}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header & Footer Information
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\fancypagestyle{plain} {
+  \fancyhf{}
+  \fancyhead[L]{CPE NOTES}
+  \fancyhead[R]{\leftmark}
+  \fancyfoot[R]{\thepage}
+}
+
+\fancypagestyle{simple}{
+  \fancyhf{}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Start Document
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+  \pagestyle{simple}
+  \maketitle
+  
+  \begin{center}
+    \vspace*{\fill}
+    The copyright holders grant the freedom to copy, modify, convey, adapt, and/or redistribute this work
+    under the terms of the Creative Commons Attribution-NonCommercial-ShareAlike 4.0
+    International License. A copy of that license is available at
+    \url{https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode}.
+    \vspace*{\fill}
+  \end{center}
+
+  \frontmatter
+  \pagestyle{plain}
+
+  \tableofcontents
+
+  \mainmatter
+
+  \chapter{Introduction}
+  \label{chap:introduction}
+
+    \begin{defbox}[Example Box 2]
+      \label{def:example2}
+      This is an example 2 definition
+    \end{defbox}
+  
+  \chapter{Side-Channels}
+  \label{chap:side_channels}
+
+    \input{chapters/Side_Channels/side_channels.tex}
+\end{document}
