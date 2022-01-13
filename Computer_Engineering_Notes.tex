@@ -7,6 +7,7 @@
 \usepackage[headheight=35pt,hmargin=0.5in,vmargin=0.75in]{geometry}
 \usepackage{amsmath,amsthm,amssymb}
 \usepackage{fancyhdr, parskip}
+\usepackage{listings}
 
 % Tables and Figures
 \usepackage{graphicx}
@@ -14,6 +15,9 @@
 \usepackage{tabularx}
 
 \input{common/emphasis_boxes.tex}
+
+% Citations
+\usepackage{cite}
 
 % Additional Info
 \usepackage{lastpage}
@@ -81,8 +85,19 @@
       This is an example 2 definition
     \end{defbox}
   
+  \chapter{Secure Computer Systems}
+  \label{chap:secure_computer_systems}
+
+    \input{chapters/Secure_Computer_Systems/secure_computer_systems.tex}
+
+  \chapter{Hardware Trust}
+  \label{chap:hardware_trust}
+
   \chapter{Side-Channels}
   \label{chap:side_channels}
 
     \input{chapters/Side_Channels/side_channels.tex}
+
+  \bibliographystyle{apalike}
+  \bibliography{references}
 \end{document}

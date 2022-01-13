@@ -1,0 +1,208 @@
+% cSpell:ignore TCSEC
+
+\graphicspath{ {./chapters/Secure_Computer_Systems} }
+
+\section{Introduction to Secure Computer Systems}
+\label{sec:intro_to_secure_comp_systems}
+  There are threats to a cyber system. 
+  Specifically these can be summarized using the security mindset:
+  \begin{itemize}
+    \item \textbf{Threats} - Standard suite of bad-actors
+    \item \textbf{Vulnerabilities} - Complexity of OS
+    \item \textbf{Attacks} - Attacks against an OS are particularly attractive as they provide access to everything protected by the OS.
+  \end{itemize}
+
+  \subsection{Trusted Computing Base: An Overview}
+  \label{ssec:tcb_overview}
+
+    An operating system is a set of software which makes it easier to use and share physical resources.
+    These resources can range from Memory to CPU Cores to physical IO.
+    The OS also manages these resources and can restrict access to them.
+    In order to accomplish this an OS must have access to all the physical resources.
+    Because of its complete access to all physical units the operating system provides access to all
+      the physical components of the system and through this can also access all of the data processed by
+      the system.
+    In a secure system the OS can be considered/made to be a trusted computing base.
+
+    \begin{defbox}[Trusted Computing Base]
+      A software suite (usually and operating system) upon which other programs
+        run that must be trusted for the security of said programs.
+      (i.e. a software \textit{BASE} which can be used and \textit{TRUSTED} by other programs)
+    \end{defbox}
+
+    Trusted Computing Bases (TCBs) have several key functions, but the foremost is arguably that of
+      a reference monitor.
+    In it's role as a reference monitor a TCB maintains limited access to certain resources by the various programs
+      which run on the TCB.
+    That is to say that the TCB must monitor and control program references to these resources.
+    It is critical that no reference can bypass a TCB, else the TCB loses its reference monitor capability and 
+      is defeated.
+
+    A properly implemented TCB has a handful of requirements:
+    \begin{enumerate}
+      \item \textbf{Tamper-Proof}
+      \begin{itemize}
+        \item Untrusted code cannot be able to operate the TCB
+      \end{itemize}
+      \item \textbf{Complete Mediation}
+      \begin{itemize}
+        \item Untrusted applications must be unable to access protected resources without going through the TCB
+        \item The TCB cannot be bypassed by an untrusted program
+      \end{itemize}
+      \item \textbf{Correctness}
+      \begin{itemize}
+        \item A TCB shall have no known vulnerabilities
+        \item A TCB vulnerability negates the previous two requirements.
+      \end{itemize}
+    \end{enumerate}
+
+    Now it should be noted that a TCB does rely on hardware.
+    Trust in hardware is its own challenge and beyond the scope of this chapter (see \autoref{chap:hardware_trust} for more details).
+    Thus for the remainder of this chapter it is prudent to assume the hardware is trusted.
+
+    \cite{cs6238_Ahamad}
+
+  \subsection{TCB as a Reference Monitor}
+  \label{ssec:tcb_as_ref_monitor}
+
+    When acting as a reference monitor what tasks should the TCB perform?
+
+    \begin{enumerate}
+      \item \textbf{Authentication}
+      \begin{itemize}
+        \item Who is the source of the request?
+      \end{itemize}
+      \item \textbf{Authorization}
+      \begin{itemize}
+        \item Does the source of the request have permission to access the resource?
+      \end{itemize}
+      \item \textbf{Audit}
+      \begin{itemize}
+        \item Can a admin check the above two requirements have been adhered to so far?
+      \end{itemize}
+    \end{enumerate}
+
+    In order for a TCB to act as a reference monitor the TCB must be able to perform the above tasks in order to ensure trust.
+
+    \cite{cs6238_Ahamad}
+
+  \subsection{Requirements for Trustworthiness}
+  \label{ssec:reqs_for_trustworthiness}
+
+    How do we decide to trust a TCB?
+    Are there certain attributes which contribute to our trust of a TCB?
+
+    Generally trust in a TCB comes from two places.
+    The first is what the TCB does.
+    These are the claims about what the TCB is able to do and its reported limitations.
+    The second is how well it does these things.
+    It does not particularly matter how secure or trustworthy a TCB claims to be if
+      it doesn't actually follow through on those promises.
+    What the TCB does is pretty easy to judge, but how well is more difficult.
+
+    There are some things which can be analyzed to help support the second consideration.
+    One of these is how the TCB is structured.
+    Structuring allows for defense in depth and other strategies to be analyzed.
+    Testing and formal verification are other strong metrics which allow 
+
+    \cite{cs6238_Ahamad}
+
+    These cause other questions to arise.
+    Can we truly trust any code which we have not written? 
+    It would seem no unless you are starting from the very base and writing everything yourself
+      (of course even here it is impossible to fully trust the code as a single human is bound.
+      to have made a mistake or two)
+    Now one is tempted to reject this on the notion that if the source code can be reviewed for
+      trojans or other "bugs" then the code can indeed be trusted.
+    However, in practice this is not true as Ken Thompson pointed out in his life time achievement award.
+    It is entirely possible to be using a tool which is built so as to re-insert a trojan when it rebuilds
+      itself or introduce a different trojan when building any other programs. 
+    This problem forces complete trust to be derived only from a machine-code base up system which is entirely
+      developed by yourself for complete trust.
+    Alternatively, anyone who has touched the TCB or any part of the tool-chain to arrive at the TCB must be
+      trusted implicitly.
+    \cite{thompson1983reflections}
+
+  \subsection{TCSEC: The Orange Book}
+  \label{ssec:tcsec_the_orange_book}
+
+    So if perfect trust is so hard to attain are there questions one can ask to determine whether
+      a TCB can truly be trusted?
+    
+    In the mid-1980s the DoD Security center published the \textit{Trusted Computer System Evaluation Criteria}, 
+      colloquially known as "The Orange Book".
+    This document puts forward a list of questions and requirements for certain levels of trust
+      used by US Government secure computer systems. \cite{book1985_tcsec}
+
+    The Orange Book puts forward set of classes which evaluate the trust of a system as discussed below.
+
+    \begin{itemize}
+      \item \textbf{Class D}
+      \begin{itemize}
+        \item Fails to meet the minimum requirements of TCB
+      \end{itemize}
+      \item \textbf{Class C1}
+      \begin{itemize}
+        \item Isolation of TCB
+        \item User Authentication
+        \item Access Control (discretionary)
+      \end{itemize}
+      \item \textbf{Class C2}
+      \begin{itemize}
+        \item All the features of C1
+        \item Accountability and Audit Requirements
+        \item Logging capability
+      \end{itemize}
+      \item \textbf{Class B1}
+      \begin{itemize}
+        \item All the features of C2
+        \item Well-defined TCB
+        \item Access Control (mandatory)
+        \item Penetration Testing
+      \end{itemize}
+      \item \textbf{Class B2}
+      \begin{itemize}
+        \item All the features of B1
+        \item Confinement and Covert Channels
+        \item Well Structured TCB (such as modularity)
+      \end{itemize}
+      \item \textbf{Class B3}
+      \begin{itemize}
+        \item All the features of B2
+        \item Well defined security model
+        \item Separation of security code
+        \item Least Privilege
+      \end{itemize}
+      \item \textbf{Class A1}
+      \begin{itemize}
+        \item All the features of B3
+        \item Formal design verification
+      \end{itemize}
+      \item \textbf{Class A2}
+      \begin{itemize}
+        \item All the features of A1
+        \item Formal implementation verification
+      \end{itemize}
+    \end{itemize}
+
+  \subsection{Introduction to Trusted Platform Module}
+  \label{ssec:intro_to_tpm}
+
+    Having software which exists at the TCSEC \textit{A2} level is all well and good, but at some-point
+      that TCB has to be loaded and booted.
+    How do we know some bad actor has not changed the TCB and we are not booting a malicious or modified TCB?
+    One option is the Trusted Platform Module (TPM).
+
+    \begin{defbox}[Trusted Platform Module]
+      A hardware "root" of trust which is included in a computer system.
+
+      It performs an attestation of the operating system and platform by checking a digest 
+        of the TCB which is cryptographically strong.
+    \end{defbox}
+
+    In theory this solves the immediate issue since we are considering hardware trusted;
+      however, TPMs are not without their own draw backs.
+    TPMs allow hardware and OEM vendors to control what sorts of software (and OS) can be used
+      on a specific hardware platform since other software would not pass the attestation of the TPM.
+    This can lead to companies such as Apple locking users out of using their device except with authentic iOS
+      or Apple signed software.

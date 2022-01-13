@@ -38,10 +38,60 @@
     linecolor=blue!75,
     linewidth=2pt,
     topline=true,
-    frametitleaboveskip=\dimexpr-\ht\strutbox\relax
+    frametitleaboveskip=\dimexpr-\ht\strutbox\relax,
+    nobreak=true
   }
 
+  \vspace{5pt}
   \begin{mdframed}[]\relax%
+}{
+  \end{mdframed}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Algorithm Box
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Create a algorithm counter
+\newcounter{algobox}[chapter]\setcounter{algobox}{0}
+\renewcommand{\thealgobox}{\arabic{chapter}.\arabic{algobox}}
+\newcommand{\algoboxautorefname}{Algorithm}
+
+% Create the definition box
+\newenvironment{algobox}[1][]{ 
+  \refstepcounter{algobox}
+
+  % If no title given
+  \ifstrempty{#1}
+  {
+    \mdfsetup{
+      frametitle={
+        \tikz[baseline=(current bounding box.east), outer sep=0pt]
+        \node[anchor=east,rectangle,fill=green!30]
+          {\strut Algorithm~\thealgobox};
+      }
+    }
+  }{
+    \mdfsetup{
+      frametitle={
+        \tikz[baseline=(current bounding box.east), outer sep=0pt]
+        \node[anchor=east,rectangle,fill=green!30]
+          {\strut Algorithm~\thealgobox:~#1};
+      }
+    }
+  }
+
+  % Regardless of title given
+  \mdfsetup{
+    %innertopmargin=12pt,
+    linecolor=green!75,
+    linewidth=2pt,
+    topline=true,
+    frametitleaboveskip=\dimexpr-\ht\strutbox\relax,
+    nobreak=true
+  }
+
+  \vspace{5pt}
+  \begin{mdframed}[]
 }{
   \end{mdframed}
 }
