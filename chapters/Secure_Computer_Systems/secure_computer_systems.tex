@@ -206,3 +206,143 @@
       on a specific hardware platform since other software would not pass the attestation of the TPM.
     This can lead to companies such as Apple locking users out of using their device except with authentic iOS
       or Apple signed software.
+
+\section{Design Principles for Secure Systems}
+\label{sec:design_principles_for_sec_systems}
+
+  Secure systems are complex and must accomplish a wide variety of tasks to be successful.
+  If our task were to create an extremely simple system secure and trustworthy it would be relatively 
+    straight forward; however operating systems, and by extension TCB, are extremely complex.
+  For a perfectly trustworthy system there should be no vulnerabilities or errors, since a single
+    vulnerability is all that an adversary may need to break trust.
+  So, how do we minimize the likelihood of security security weaknesses?
+  The short answer is by following a key set of design principles.
+
+  \subsection{Real-World Security}
+  \label{ssec:real_world_security}
+
+    Physical security has been around far longer than secure computer systems, so let's start by
+      looking at it for some basic principles.
+    In the real-world only valuables are secured, and the more valuable the more secure we are likely
+      to make the item.
+    These valuables tend to be stolen for profit, though some items also may be targets for vandalism.
+    The type of threat against the item determines the type of security which is necessary.
+    Additionally, as we add more security to an item the types of threat actor which we encounter changes.
+    For example banks are very secure, but also provide the opportunity for high-profit ventures,
+      thus we can expect a smaller but more skilled group of thieves to continue to target the bank.
+    Knowing this make up of threat actors and already implemented defenses allows a physical security
+      firm to make better decisions about what new security features to add.
+
+  \subsection{Design Principle 1: Security Cost}
+  \label{ssec:design_principle_1_security_cost}
+
+    The first design principle which should be adhered to is the economics of security.
+    Security cost must be commensurate with the treat level and asset value.
+    Fundamentally, it makes sense that we should not spend more money trying to secure an item than
+      that item is worth.
+    Likewise, it is not necessary to make an item impossible to steal, instead it just needs to be 
+      expensive enough and risky enough that it is not worth it for a thief to try and steal it.
+    But to go beyond that we also recognize that the more likely an item is to be targeted the more we need
+      to spend to ensure its protection.
+    From a defense standpoint this can be expressed mathematically.
+    We would like to add defenses until:
+
+    \begin{equation}
+      C_D < V_D \text{ and } C_A > V_A
+    \end{equation}
+    
+    where $C_D$ is the cost to the defender, $V_D$ is the items value to the defender, $C_A$ is the
+      cost to the attacker, and $V_A$ is the value to the attacker.
+
+    \begin{keybox}[Design Principle 1: Security Cost]
+      Security cost must be commensurate with the treat level and asset value.
+    \end{keybox}
+
+  \subsection{Design Principle 2: User Acceptability}
+  \label{ssec:design_principle_2_user_Acceptability}
+
+    In addition to the economic cost of security there is another lest quantifiable cost: usability.
+    Ideally security does not interfere with the usability of the system, but in practice this cannot be 
+      the case.
+    For example password requirements and multi-factor authentication can greatly improve security,
+      but they also add burden to a standard user.
+
+    In a perfect world all of these additional security measures would be handled automatically.
+    However, systems are only secure as the weakest link.
+    More and more often these days that weak link is the user.
+    In order to remedy this issue additional requirements must be placed on the user, or at least
+      offered to the user.
+    The trade-off is that if there requirements are too cumbersome the user may opt not to use them
+      or not to use the system that requires them. 
+    This trade-off is the user-acceptability design principle.
+
+    \begin{keybox}[Design Principle 2: User Acceptability]
+      The usability of a system must not be so compromised in the name of security that
+        the intended users accept the requirements imposed on them.
+    \end{keybox}
+
+  \subsection{Design Principle 3: System Complexity}
+  \label{ssec:design_principle_3_system_complexity}
+
+    Is it easier to analyze the security of a small program or a large one?
+    The obvious answer is that smaller systems may be more easily analyzed than larger ones.
+    But larger systems do provide the notable benefit of being more feature rich.
+    Thus in a TCB it is necessary to balance these two trades.
+    When possible fewer and simpler mechanisms should be used.
+    However, this not always possible, so as systems get more complex more attention to 
+      the security of the systems needs to be heeded.
+    
+    \begin{keybox}[Design Principle 3: System Complexity]
+      A secure system should be as simple as possible while still achieving the
+        necessary functionality.
+    \end{keybox}
+
+  \subsection{Design Principle 4: Least Privilege}
+  \label{ssec:design_principle_4_least_privilege}
+
+    When a user is running an application how do we decide what privileges that user and program 
+      should have to interact with resources?
+    Should they have the bare minimum required to complete their task?
+    Probably.
+
+    This is the principle of least privilege and it is the strongest principle from a security standpoint.
+    However, in complex systems it can be tempting to bypass this system for a more convenient method of
+      assigning privilege such as based on the user running the program, without regard for what the program
+      actually needs.
+    In fact this user-level privilege model is what Windows uses.
+    Android on the other hand uses a stronger model much closer to least privilege as it grants permissions
+      (i.e. privileges) based on what the application does in conjunction with what the user is willing to 
+      let it do.
+    However, even this is not perfect least privilege since the program could request privileges it doesn't
+      actually need if the app is a bad actor.
+
+    Ultimately, least privilege results in two key principles: separation of privileges and fail-safe default.
+    Separation of privileges implies a finer grained access control.
+    This might entail splitting files into different privileges.
+    It may also include dividing different I/O devices in to different privilege requirements.
+    Fail-safe defaults deny access when access is not explicitly granted.
+    This means that some programs which are not granted a permission, but need it, could fail to execute properly.
+    However, this is preferable to allowing malicious programs access to too much.
+
+    \begin{keybox}[Design Principle 4: Least Privilege]
+      A user and a program pair should be granted the least amount of privilege (i.e. access) to a system
+        required in order to perform their approved task.
+    \end{keybox}
+
+  \subsection{Design Principle 5: Defense in Depth}
+  \label{ssec:design_principle_5_defense_in_depth}
+
+    Can any defensive layer be perfect?
+    No (and anyone who tells you differently is trying to sell you something).
+    Instead we must assume each layer has a set of weaknesses which an attacker may exploit.
+    Each of these layers may share some weaknesses, but they may also cover others.
+    Thus if we combine two layers we can cover some of the weaknesses of the system and force a malicious
+      force to use various types of attack which significantly increases the attack complexity.
+    The more layers which are stacked on each other the more this complexity increases and the security increases.
+    Through this multi-layer construction of security we gain additional defense through the depth (number of layers)
+      of security.
+
+    \begin{keybox}[Design Principle 5: Defense In Depth]
+      A secure program should use multiple methods of defense in order to cover the vulnerabilities of one layer
+        with the strength of another layer whenever possible.
+    \end{keybox}
