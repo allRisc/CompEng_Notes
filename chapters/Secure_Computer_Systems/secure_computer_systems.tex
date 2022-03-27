@@ -346,3 +346,46 @@
       A secure program should use multiple methods of defense in order to cover the vulnerabilities of one layer
         with the strength of another layer whenever possible.
     \end{keybox}
+
+\section{Mandatory Access Control}
+\label{sec:mandatory_access_control}
+
+  Discretionary Access Control (DAC) has some key short-comings. 
+  Mandatory Access Control (MAC) provides an alternative which covers these issues.
+
+  \subsection{Discretionary Access Control Problems}
+  \label{ssec:da_control_problem}
+
+    With discretionary access control a user who shares information with another user can never be
+      sure that this information will not be shared with other users.
+
+    For example let Alice share information with Bob, but not want Charlie to have access.
+    In DAC Alice allows Bob to read the information.
+    Bob might copy this information into his own file and allow Charlie to have read access thus violating
+      Alice's desire to not share with Charlie.
+
+    Additionally, in some environments (such are classified or sensitive information spaces) it might not
+      be up to the user who they should share certain information with. 
+    In this type of environment with only DAC the user would have to set the permissions correctly
+      every time they created a new file.
+  
+  \subsection{How TCBs Support MAC}
+  \label{ssec:how_tcb_support_mac}
+
+    In order to support MAC a TCB must maintain additional information about objects which are under access control.
+    This meta-data is often in the form of labels.
+    But what information does the label need to cover?
+
+    \begin{itemize}
+      \item How sensitive is the data?
+      \item What integrity level can be assigned to it?
+      \item What kind of data is in the object?
+      \item What kind of data does the subject need to know?
+      \item Can the user access sensitive data?
+    \end{itemize}
+
+    Labels can often be summarized using a pair of information.
+    The first piece of information is the sensitivity level; while the second it the compartment.
+    Sensitivity level is fairly self explanatory.
+    The compartment is an indicator of what the contents contain information about. 
+    
